@@ -1,5 +1,5 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+"use client";
+import React, { useEffect, useState } from "react";
 
 type RingData = {
   startColor?: string;
@@ -12,9 +12,19 @@ type MultiRingsProps = {
   data?: RingData[];
   centerText?: string;
   className?: string;
+  gap?: number;
+  baseSize?: number;
+  ringWidth?: number;
 };
 
-const MultiRings: React.FC<MultiRingsProps> = ({ data = [], centerText = "", className = "" }) => {
+const MultiRings: React.FC<MultiRingsProps> = ({
+  data = [],
+  centerText = "",
+  gap = 50,
+  baseSize = 600,
+  ringWidth = 5,
+  className = "",
+}) => {
   const [animated, setAnimated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -24,27 +34,26 @@ const MultiRings: React.FC<MultiRingsProps> = ({ data = [], centerText = "", cla
 
   // Calculate ring dimensions
   const calculateRing = (index: number) => {
-    const gap = 50;
-    const baseSize = 600;
-    const ringWidth = 5;
-    const size = baseSize - (index * (ringWidth + gap));
+    const size = baseSize - index * (ringWidth + gap);
     return {
       size,
-      radius: (size / 2) - ringWidth,
+      radius: size / 2 - ringWidth,
       circumference: (size - ringWidth) * Math.PI,
-      strokeWidth: ringWidth
+      strokeWidth: ringWidth,
     };
   };
 
   return (
-    <div className={`relative w-[800px] h-[800px] bg-transparent rounded-full ${className}`}>
+    <div
+      className={`relative w-[800px] h-[800px] bg-transparent rounded-full ${className}`}
+    >
       {/* Center content */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
         <div className="text-center">
           <span className="text-1xl font-bold text-gray-800">{centerText}</span>
         </div>
       </div>
-      
+
       {/* Gradients definitions */}
       <svg width="0" height="0">
         <defs>
@@ -56,16 +65,16 @@ const MultiRings: React.FC<MultiRingsProps> = ({ data = [], centerText = "", cla
           ))}
         </defs>
       </svg>
-      
+
       {/* Rings */}
-      <div className="absolute inset-0" style={{ transform: 'rotate(-90deg)' }}>
+      <div className="absolute inset-0" style={{ transform: "rotate(-90deg)" }}>
         {data.map((dataItem, index) => {
           const { size, radius, circumference, strokeWidth } = calculateRing(index);
           const progress = animated ? dataItem.value : 0;
           const dashOffset = circumference - (progress / 100) * circumference;
 
           return (
-            <div 
+            <div
               key={index}
               className="absolute inset-0 flex items-center justify-center"
             >
@@ -96,7 +105,7 @@ const MultiRings: React.FC<MultiRingsProps> = ({ data = [], centerText = "", cla
                   style={{
                     stroke: `url(#gradient-${index})`,
                     strokeDasharray: circumference,
-                    strokeDashoffset: dashOffset
+                    strokeDashoffset: dashOffset,
                   }}
                 />
               </svg>
