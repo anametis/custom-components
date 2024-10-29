@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Tooltip from "@/components/tooltips/Tooltip";
 
 type RingData = {
   startColor?: string;
@@ -69,7 +70,8 @@ const MultiRings: React.FC<MultiRingsProps> = ({
       {/* Rings */}
       <div className="absolute inset-0" style={{ transform: "rotate(-90deg)" }}>
         {data.map((dataItem, index) => {
-          const { size, radius, circumference, strokeWidth } = calculateRing(index);
+          const { size, radius, circumference, strokeWidth } =
+            calculateRing(index);
           const progress = animated ? dataItem.value : 0;
           const dashOffset = circumference - (progress / 100) * circumference;
 
@@ -94,20 +96,22 @@ const MultiRings: React.FC<MultiRingsProps> = ({
                   strokeWidth={strokeWidth}
                 />
                 {/* Progress circle */}
-                <circle
-                  cx={size / 2}
-                  cy={size / 2}
-                  r={radius}
-                  fill="none"
-                  strokeWidth={strokeWidth}
-                  strokeLinecap="round"
-                  className="transition-all duration-1000 ease-out"
-                  style={{
-                    stroke: `url(#gradient-${index})`,
-                    strokeDasharray: circumference,
-                    strokeDashoffset: dashOffset,
-                  }}
-                />
+                {/* <Tooltip text={`testing`}> */}
+                  <circle
+                    cx={size / 2}
+                    cy={size / 2}
+                    r={radius}
+                    fill="none"
+                    strokeWidth={strokeWidth}
+                    strokeLinecap="round"
+                    className="transition-all duration-1000 ease-out"
+                    style={{
+                      stroke: `url(#gradient-${index})`,
+                      strokeDasharray: circumference,
+                      strokeDashoffset: dashOffset,
+                    }}
+                  />
+                {/* </Tooltip> */}
               </svg>
             </div>
           );
