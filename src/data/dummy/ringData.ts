@@ -99,20 +99,7 @@ const ringData: RingData[] = [
     endColor: "#7c3aed",
     label: "Ring 12",
   },
-  {
-    value: 36,
-    color: "#8b5cf6",
-    startColor: "#8b5cf6",
-    endColor: "#7c3aed",
-    label: "Ring 13",
-  },
-  {
-    value: 70,
-    color: "#8b5cf6",
-    startColor: "#8b5cf6",
-    endColor: "#7c3aed",
-    label: "Ring 14",
-  },
+
 ];
 
 export default ringData;

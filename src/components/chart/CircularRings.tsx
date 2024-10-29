@@ -1,24 +1,16 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-
 type RingData = {
+  value: number;
+  color: string;
   startColor?: string;
   endColor?: string;
-  color: string;
-  value: number;
+  label: string;
 };
 
-type CircularRingsProps = {
-  data?: RingData[];
-  centerText?: string;
-  gap?: number;
-  baseSize?: number;
-  ringWidth?: number;
-};
-
-const MultiRings: React.FC<CircularRingsProps> = ({ data = [], centerText = "",gap = 20, baseSize = 400, ringWidth = 10 }) => {
-  const [animated, setAnimated] = useState<boolean>(false);
-
+const CircularRings = ({ data = [], centerText = "" }) => {
+  const [animated, setAnimated] = useState(false);
+  
   useEffect(() => {
     const timer = setTimeout(() => setAnimated(true), 100);
     return () => clearTimeout(timer);
@@ -26,9 +18,12 @@ const MultiRings: React.FC<CircularRingsProps> = ({ data = [], centerText = "",g
 
   // Calculate ring dimensions
   const calculateRing = (index: number) => {
+    const gap = 20;
+    const baseSize = 400;
+    const ringWidth = 10;
     const size = baseSize - (index * (ringWidth + gap));
     return {
-      size,
+      size: baseSize,
       radius: (size / 2) - ringWidth,
       circumference: (size - ringWidth) * Math.PI,
       strokeWidth: ringWidth
@@ -36,7 +31,7 @@ const MultiRings: React.FC<CircularRingsProps> = ({ data = [], centerText = "",g
   };
 
   return (
-    <div className="relative w-[400px] h-[400px] bg-white rounded-full">
+    <div className="relative w-[400px] h-[400px] bg-yellow-600 rounded-full">
       {/* Center content */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
         <div className="text-center">
@@ -47,7 +42,7 @@ const MultiRings: React.FC<CircularRingsProps> = ({ data = [], centerText = "",g
       {/* Gradients definitions */}
       <svg width="0" height="0">
         <defs>
-          {data.map((item, index) => (
+          {data.map((item: RingData, index: number) => (
             <linearGradient key={`gradient-${index}`} id={`gradient-${index}`}>
               <stop offset="0%" stopColor={item.startColor || item.color} />
               <stop offset="100%" stopColor={item.endColor || item.color} />
@@ -57,9 +52,10 @@ const MultiRings: React.FC<CircularRingsProps> = ({ data = [], centerText = "",g
       </svg>
       
       {/* Rings */}
-      <div className="absolute inset-0 rotate-180" style={{ transform: 'rotate(90deg)' }}>
-        {data.map((dataItem, index) => {
+      <div className="absolute inset-0" style={{ transform: 'rotate(-90deg)' }}>
+        {data.map((_, index) => {
           const { size, radius, circumference, strokeWidth } = calculateRing(index);
+          const dataItem: RingData = data[index];
           const progress = animated ? dataItem.value : 0;
           const dashOffset = circumference - (progress / 100) * circumference;
 
@@ -107,4 +103,4 @@ const MultiRings: React.FC<CircularRingsProps> = ({ data = [], centerText = "",g
   );
 };
 
-export default MultiRings;
+export default CircularRings;
