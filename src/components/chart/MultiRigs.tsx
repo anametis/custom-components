@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import Tooltip from "@/components/tooltip/Tooltip";
 
 type RingData = {
   startColor?: string;
@@ -64,6 +65,7 @@ const MultiRings: React.FC<CircularRingsProps> = ({ data = [], centerText = "",g
           const dashOffset = circumference - (progress / 100) * circumference;
 
           return (
+            // <Tooltip key={index} text={`Value: ${dataItem.value}%`}></Tooltip>
             <div 
               key={index}
               className="absolute inset-0 flex items-center justify-center"
