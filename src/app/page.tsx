@@ -6,22 +6,9 @@ import Quotex from "@/components/Quotex";
 import useSocketIo from "@/hooks/useSocketIO";
 
 export default function Home() {
-  // const { isConnected, error, lastMessage, emit, clearHistory } =
-  //   useSocketIo({
-  //     url: "wss://ws2.qxbroker.com",
-  //     authSession: "MJ6a4jCllQG2jlMVvHie9fMpVYSoZHbylvf9aOri",
-  //     isDemo: 1,
-  //     tournamentId: 0,
-  //     autoConnect: true,
-  //   });
-
-  //   const handleRequestInstruments = () => {
-  //     emit('instruments/list', { _placeholder: true, num: 0 });
-  //   };
-  //   handleRequestInstruments();
   return (
     <div className="mx-auto flex flex-col justify-center items-center">
-      {/* <Quotex /> */}
+      <Quotex />
       <MultiRings data={ringData} />
 
 
