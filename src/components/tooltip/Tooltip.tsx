@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState } from "react";
 
 type TooltipProps = {
@@ -11,12 +11,14 @@ const Tooltip: React.FC<TooltipProps> = ({ text, children }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (event: React.MouseEvent) => {
-    setPosition({ x: event.clientX, y: event.clientY });
+    // Use pageX and pageY for more accurate positioning
+    setPosition({ x: event.pageX, y: event.pageY-230 });
+    // console.log(event.pageX, event.pageY);
   };
 
   return (
     <div
-      className="relative flex items-center"
+      className="relative inline-block"
       onMouseEnter={() => setVisible(true)}
       onMouseLeave={() => setVisible(false)}
       onMouseMove={handleMouseMove}
@@ -24,9 +26,9 @@ const Tooltip: React.FC<TooltipProps> = ({ text, children }) => {
       {children}
       {visible && (
         <div
-          className="absolute px-3 py-2 text-sm text-white bg-gray-800 rounded opacity-0 transition-opacity duration-300 pointer-events-none rotate-270"
+          className="fixed z-50 px-3 py-2 text-sm text-white bg-gray-800 rounded shadow-lg transition-all duration-500"
           style={{
-            top: position.y - 10,
+            top: position.y + 20,
             left: position.x + 10,
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(10px)",
