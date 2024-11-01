@@ -6,31 +6,24 @@ import Quotex from "@/components/Quotex";
 import useSocketIo from "@/hooks/useSocketIO";
 
 export default function Home() {
-  const { isConnected, error, lastMessage, emit, clearHistory } =
-    useSocketIo({
-      url: "wss://ws2.qxbroker.com",
-      authSession: "MJ6a4jCllQG2jlMVvHie9fMpVYSoZHbylvf9aOri",
-      isDemo: 1,
-      tournamentId: 0,
-      autoConnect: true,
-    });
+  // const { isConnected, error, lastMessage, emit, clearHistory } =
+  //   useSocketIo({
+  //     url: "wss://ws2.qxbroker.com",
+  //     authSession: "MJ6a4jCllQG2jlMVvHie9fMpVYSoZHbylvf9aOri",
+  //     isDemo: 1,
+  //     tournamentId: 0,
+  //     autoConnect: true,
+  //   });
 
-    const handleRequestInstruments = () => {
-      emit('instruments/list', { _placeholder: true, num: 0 });
-    };
-    handleRequestInstruments();
+  //   const handleRequestInstruments = () => {
+  //     emit('instruments/list', { _placeholder: true, num: 0 });
+  //   };
+  //   handleRequestInstruments();
   return (
     <div className="mx-auto flex flex-col justify-center items-center">
       {/* <Quotex /> */}
-      <p>the old</p>
-      {/* <CircularRings data={ringData} /> */}
-      <p>the new</p>
-      {/* <MultiRings data={ringData} /> */}
-      <Tooltip text="this is 1">
-        <div className="bg-yellow-500 rounded-full text-center h-10 w-10">
-          0
-        </div>
-      </Tooltip>
+      <MultiRings data={ringData} />
+
 
       {/* <div className="flex w-full items-center justify-start gap-10 flex-wrap ">
         <Tooltip text="this is 1">
@@ -66,12 +59,13 @@ export default function Home() {
         }}
       >
         {Array.from({ length: 23 }).map((_, index) => (
+          <Tooltip key={index} text="hi">
           <div
-            key={index}
             className="bg-yellow-500 h-24 w-24 flex items-center justify-center flex-col"
           >
             {index}
           </div>
+          </Tooltip>
         ))}
       </div>
     </div>
