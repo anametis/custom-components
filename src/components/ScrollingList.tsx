@@ -1,18 +1,23 @@
-import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+
+// Add interface for item structure
+interface Item {
+  id: number;
+  name: string;
+}
 
 const ScrollingList = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const listRef = useRef(null);
-  
-  // Generate 50 items for demonstration
-  const items = Array.from({ length: 50 }, (_, i) => ({
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Type the items array
+  const items: Item[] = Array.from({ length: 50 }, (_, i) => ({
     id: i + 1,
-    name: `Book ${i + 1}`
+    name: `Book ${i + 1}`,
   }));
 
-  const handleSelect = (item) => {
+  const handleSelect = (item: Item) => {
     setSelectedItem(item);
     setIsOpen(false);
   };
@@ -20,17 +25,22 @@ const ScrollingList = () => {
   useEffect(() => {
     if (isOpen && selectedItem && listRef.current) {
       const list = listRef.current;
-      const selectedElement = list.querySelector(`[data-id="${selectedItem.id}"]`);
-      
+      const selectedElement = list.querySelector(
+        `[data-id="${selectedItem.id}"]`
+      ) as HTMLElement;
+
       if (selectedElement) {
         // Calculate the scroll position to center the item
         const listRect = list.getBoundingClientRect();
         const elementRect = selectedElement.getBoundingClientRect();
-        const scrollTop = selectedElement.offsetTop - (listRect.height / 2) + (elementRect.height / 2);
-        
+        const scrollTop =
+          selectedElement.offsetTop -
+          listRect.height / 2 +
+          elementRect.height / 2;
+
         list.scrollTo({
           top: scrollTop,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     }
@@ -43,12 +53,8 @@ const ScrollingList = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full p-4 flex justify-between items-center bg-white border rounded-lg shadow-sm hover:bg-gray-50"
       >
-        <span>{selectedItem ? selectedItem.name : 'Select a book...'}</span>
-        {isOpen ? (
-          <ChevronUp className="h-5 w-5 text-gray-500" />
-        ) : (
-          <ChevronDown className="h-5 w-5 text-gray-500" />
-        )}
+        <span>{selectedItem ? selectedItem.name : "Select a book..."}</span>
+        {isOpen ? <span>👆</span> : <span>👇</span>}
       </button>
 
       {/* Dropdown list */}
@@ -64,7 +70,7 @@ const ScrollingList = () => {
                 data-id={item.id}
                 onClick={() => handleSelect(item)}
                 className={`w-full p-3 text-left hover:bg-gray-50 ${
-                  selectedItem?.id === item.id ? 'bg-blue-50 text-blue-600' : ''
+                  selectedItem?.id === item.id ? "bg-blue-50 text-blue-600" : ""
                 }`}
               >
                 {item.name}

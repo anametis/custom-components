@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 type Props = {
   text: string;
@@ -19,13 +19,13 @@ const ClampText: React.FC<Props> = ({
   const textRef = useRef<HTMLDivElement>(null);
 
   // Memoized style to avoid unnecessary re-renders
-  const clampStyle = useMemo(() => ({
-    WebkitLineClamp: maxLines,
-    WebkitBoxOrient: "vertical",
-    overflow: "hidden",
-    display: "-webkit-box",
-    lineHeight: `${lineHeight}`,
-  }), [maxLines, lineHeight]);
+  // const clampStyle = useMemo(() => ({
+  //   WebkitLineClamp: maxLines,
+  //   WebkitBoxOrient: "vertical",
+  //   overflow: "hidden",
+  //   display: "-webkit-box",
+  //   lineHeight: `${lineHeight}`,
+  // }), [maxLines, lineHeight]);
 
   // Improved effect with cleanup and more robust checking
   useEffect(() => {
@@ -62,7 +62,13 @@ const ClampText: React.FC<Props> = ({
     <div className={`relative ${className}`}>
       <p
         ref={textRef}
-        style={!isOpen ? clampStyle : undefined}
+        style={!isOpen ? {
+          WebkitLineClamp: maxLines,
+          WebkitBoxOrient: "vertical" as const,
+          overflow: "hidden",
+          display: "-webkit-box",
+          lineHeight: `${lineHeight}`,
+        } : undefined}
         aria-expanded={isOpen}
         className="break-words"
       >
